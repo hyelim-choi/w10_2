@@ -1,84 +1,109 @@
-import pandas as pd
-import time
-from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import pandas as pd
+from time import sleep
+import json
+
+with open('dog_type.json', 'r', encoding='utf-8') as file:
+    data = json.load(file)
+
+# 검색어 기반 URL
 url = 'https://map.naver.com/v5/search'
-driver = webdriver.Chrome()
-driver.get(url)
-key_word = '남양주시 평내동 동물'
-def time_wait(num, code):
+
+
+# 함수를 통해 새 브라우저를 실행
+def start_browser():
+    driver = webdriver.Chrome()
+    driver.get(url)
+    return driver
+
+
+# 요소 대기 함수
+def time_wait(driver, num, code):
     try:
         wait = WebDriverWait(driver, num).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, code)))
+            EC.presence_of_element_located((By.CSS_SELECTOR, code))
+        )
+        return wait
     except:
-        print(code, '태그를 찾지 못하였습니다.')
-        driver.quit()
-    return wait
-def switch_frame(frame):
+        print(f"'{code}' 태그를 찾지 못하였습니다.")
+        return None
+
+
+# Frame 전환
+def switch_frame(driver, frame):
     driver.switch_to.default_content()
     driver.switch_to.frame(frame)
 
-def page_down(num):
+
+# 페이지 스크롤
+def page_down(driver, num):
     body = driver.find_element(By.CSS_SELECTOR, 'body')
     body.click()
     for i in range(num):
         body.send_keys(Keys.PAGE_DOWN)
-time_wait(10, 'div.input_box > input.input_search')
-search = driver.find_element(By.CSS_SELECTOR, 'div.input_box > input.input_search')
-search.send_keys(key_word)  # 검색어 입력
-search.send_keys(Keys.ENTER)  # 엔터버튼 누르기
 
-sleep(1)
 
-# (2) frame 변경
-switch_frame('searchIframe')
-page_down(40)
-sleep(3)
+# 결과 저장 경로
+output_folder = '../crawling_file'
+dog_facilities_all = []
 
-dog_related_facilities_list = driver.find_elements(By.CSS_SELECTOR,'li.VLTHu')
-next_btn = driver.find_elements(By.CSS_SELECTOR,'.zRM9F > a')
-dog_facilities = []
-start = time.time()
-print('[크롤링 시작...]')
+# 읍면동별 검색 및 크롤링
+for entry in data:
+    city = entry['시군명']
+    district = entry['읍면동명']
+    key_word = f"{city} {district} 동물"
+    print(f"\n[검색어]: {key_word}")
 
-for btn in range(len(next_btn))[1:]:
+    # 새로운 브라우저 시작
+    driver = start_browser()
+
+    # 검색어 입력
+    wait_result = time_wait(driver, 10, 'div.input_box > input.input_search')
+    if not wait_result:
+        print(f"검색어 입력 실패: {key_word}")
+        driver.quit()
+        continue
+
+    search = driver.find_element(By.CSS_SELECTOR, 'div.input_box > input.input_search')
+    search.clear()
+    search.send_keys(key_word)
+    search.send_keys(Keys.ENTER)
+    sleep(1)
+
+    # Frame 전환
+    switch_frame(driver, 'searchIframe')
+    page_down(driver, 40)
+    sleep(3)
+
+    # 크롤링 데이터 저장
     dog_related_facilities_list = driver.find_elements(By.CSS_SELECTOR, 'li.VLTHu')
-    names = driver.find_elements(By.CSS_SELECTOR,'.YwYLL')
-    types = driver.find_elements(By.CSS_SELECTOR,'.YzBgS')
-    address = driver.find_elements(By.CSS_SELECTOR,'.lWwyx .Pb4bU')
-    for data in range(len(dog_related_facilities_list)):
-        print(data)
-        sleep(1)
+    names = driver.find_elements(By.CSS_SELECTOR, '.YwYLL')
+    types = driver.find_elements(By.CSS_SELECTOR, '.YzBgS')
+    addresses = driver.find_elements(By.CSS_SELECTOR, '.lWwyx .Pb4bU')
+
+    for i in range(len(dog_related_facilities_list)):
         try:
-            dog_facilities_name = names[data].text
-            print(dog_facilities_name)
-            dog_facilities_type = types[data].text
-            print(dog_facilities_type)
-            address_name = address[data].text
-            print(address_name)
-            dog_facilities.append([dog_facilities_name, dog_facilities_type,address_name])
-            print(f'{dog_facilities_name}...완료')
-            sleep(1)
+            dog_facilities_name = names[i].text
+            dog_facilities_type = types[i].text
+            address_name = addresses[i].text
+            # dog_facilities_all에 데이터 추가
+            dog_facilities_all.append([dog_facilities_name, dog_facilities_type, address_name])
         except Exception as e:
-            print(e)
-            print('ERROR!'* 3)
-            dog_facilities.append([dog_facilities_name, dog_facilities_type,address_name])
-            print(f'{dog_facilities_name}...완료')
-            sleep(1)
-    if not next_btn[-1].is_enabled():
-        break
-    if names[-1]:
-        next_btn[-1].click()
-        sleep(2)
-    else:
-        print('페이지 인식 못함')
-        break
-print('[데이터 수집 완료]\n소요시간 :',time.time() - start)
-driver.quit()
-df = pd.DataFrame(dog_facilities,columns=['dog_facilities_name','dog_facilities_type','address_name'])
-df.to_csv('개관련시설크롤링.csv',encoding='utf-8-sig')
+            print(f"데이터 추출 오류: {e}")
+            continue
+
+    # 브라우저 종료
+    driver.quit()
+
+# 모든 데이터를 하나의 DataFrame으로 변환
+df = pd.DataFrame(dog_facilities_all, columns=['dog_facilities_name', 'dog_facilities_type', 'address_name'])
+
+# 하나의 파일로 저장
+output_file = f"{output_folder}/dog_facilities_all.csv"
+df.to_csv(output_file, encoding='utf-8-sig', index=False)
+print(f"[저장 완료]: {output_file}")
 
