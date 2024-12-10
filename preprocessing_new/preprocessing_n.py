@@ -17,13 +17,7 @@ nan_df = nan_df.drop_duplicates()
 #동별로 비슷한 dog_facilities_type 묶기
 nan_df = nan_df[~nan_df.duplicated(subset=['dog_facilities_name'], keep=False) | (nan_df.duplicated(subset=['address_name'], keep=False))]
 
-# Step 3: 남양주 주소 필터링
-nan_df = nan_df[nan_df['address_name'].str.startswith("남양주")]
-
-# Step 4: 중복 제거
-nan_df = nan_df.drop_duplicates()
-
-# Step 5: 동별로 유사한 dog_facilities_type 그룹화
+동별로 유사한 dog_facilities_type 그룹화
 def find_similar_groups(types):
     """
     문자열 유사도를 기준으로 비슷한 값끼리 그룹화합니다.
