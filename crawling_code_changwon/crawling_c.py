@@ -7,9 +7,10 @@ import pandas as pd
 from time import sleep
 
 # CSV 파일
-df = pd.read_csv('changwon_data.csv', encoding='utf-8')  # CSV 파일 경로로 수정
+df = pd.read_csv('changwon_data.csv', encoding='utf-8')
 
 # 중복되는 시군명 제거 (고유한 시군명만 사용)
+# 동을 기준으로 했을 때 크롤링 시간이 오래걸림 -> 지역구를 기준으로 수정하기 위해 중복되는 시군명을 제거
 unique_cities = df['지역구'].drop_duplicates()
 
 # 검색어 기반 URL
