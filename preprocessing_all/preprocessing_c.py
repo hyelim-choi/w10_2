@@ -26,7 +26,7 @@ def extract_district(address):
 
 changwon_df['district'] = changwon_df['address_name'].apply(extract_district)
 
-# 동별로 유사한 dog_facilities_type 그룹화
+# 구별로 유사한 dog_facilities_type 그룹화
 def find_similar_groups(types):
     """
     문자열 유사도를 기준으로 비슷한 값끼리 그룹화합니다.
