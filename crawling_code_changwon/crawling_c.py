@@ -46,7 +46,7 @@ def page_down(driver, num):
         body.send_keys(Keys.PAGE_DOWN)
 
 # 결과 저장 경로
-output_folder = '../crawling_file_new'
+output_folder = '../crawling_file_changwon'
 dog_facilities_all = []
 
 # 고유한 시군명에 대해 검색 및 크롤링
