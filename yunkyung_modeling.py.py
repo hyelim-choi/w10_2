@@ -1,4 +1,4 @@
-# 라이브러리 불러오기
+# version01
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -84,7 +84,8 @@ plt.show()
 X_train_const = sm.add_constant(X_train_scaled)
 ols_model = sm.OLS(y_train, X_train_const).fit()
 print(ols_model.summary())
-###########3
+###########
+#version02
 # 필요한 라이브러리 불러오기
 import pandas as pd  # 데이터프레임 생성 및 데이터 조작
 import numpy as np  # 수학적 계산 및 배열 작업
@@ -191,7 +192,8 @@ plt.show()  # 그래프 출력
 X_train_const = sm.add_constant(X_train_scaled)
 ols_model = sm.OLS(y_train, X_train_const).fit()  # OLS(최소제곱법) 모델 학습
 print(ols_model.summary())  # 회귀 분석 요약 결과 출력
-###################33333
+###################
+#version03
 # 필요한 라이브러리 불러오기
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor  # 앙상블 모델 (Random Forest, Gradient Boosting)
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet, SGDRegressor  # 선형 모델 및 확률적 경사 하강법 회귀
@@ -335,3 +337,187 @@ plt.scatter(df_results.index, df_results['actual'], alpha=0.6, color='black', la
 plt.title(f"Prediction Results ({best_model_name})")  # 그래프 제목
 plt.legend()  # 범례
 plt.show()  # 그래프 출력
+
+#version04
+# 필요한 라이브러리 불러오기
+import pandas as pd  # 데이터 처리 및 분석을 위한 라이브러리
+import numpy as np  # 수학적 계산 및 배열 처리를 위한 라이브러리
+import matplotlib.pyplot as plt  # 데이터 시각화를 위한 라이브러리
+from sklearn.model_selection import train_test_split, cross_val_score  # 데이터 분할 및 교차 검증
+from sklearn.preprocessing import StandardScaler  # 데이터 스케일링 (표준화)
+from sklearn.metrics import mean_squared_error, r2_score  # 모델 성능 평가 지표
+from sklearn.linear_model import LinearRegression  # 선형회귀 모델
+
+# 1. 데이터 불러오기
+# 훈련 및 테스트 데이터셋 경로 지정
+train_path = '/content/preprocessing_final_data_c.csv'  # 훈련 데이터 파일 경로
+test_path = '/content/preprocessing_final_data_n.csv'  # 테스트 데이터 파일 경로
+
+# CSV 파일을 pandas DataFrame으로 불러오기
+train_data = pd.read_csv(train_path)  # 훈련 데이터 불러오기
+test_data = pd.read_csv(test_path)  # 테스트 데이터 불러오기
+
+# 2. 독립변수(X)와 종속변수(y) 분리
+# 훈련 데이터에서 독립변수(특징)와 종속변수(타겟)를 분리
+X_train = train_data[["미용", "병원", "약국", "용품", "위탁"]]  # 훈련 데이터의 독립변수
+y_train = train_data["견주수"]  # 훈련 데이터의 종속변수
+X_test = test_data[["미용", "병원", "약국", "용품", "위탁"]]  # 테스트 데이터의 독립변수
+y_test = test_data["견주수"]  # 테스트 데이터의 종속변수
+
+# 3. 데이터 스케일링
+# 데이터의 분포를 표준화하여 모델의 학습 성능 향상
+scaler = StandardScaler()  # StandardScaler 객체 생성 (평균 0, 표준편차 1로 변환)
+X_train_scaled = scaler.fit_transform(X_train)  # 훈련 데이터 표준화
+X_test_scaled = scaler.transform(X_test)  # 테스트 데이터도 같은 스케일로 변환
+
+# 4. 선형회귀 모델 정의 및 학습
+linear_model = LinearRegression()  # 선형회귀 모델 객체 생성
+linear_model.fit(X_train_scaled, y_train)  # 훈련 데이터를 사용하여 모델 학습
+
+# 5. 모델 예측
+# 훈련 및 테스트 데이터셋에 대한 예측 수행
+y_pred_train = linear_model.predict(X_train_scaled)  # 훈련 데이터 예측
+y_pred_test = linear_model.predict(X_test_scaled)  # 테스트 데이터 예측
+
+# 6. 모델 평가
+# 성능 지표: R²(결정계수) 및 RMSE(평균 제곱근 오차) 계산
+train_r2 = r2_score(y_train, y_pred_train)  # 훈련 데이터 R²
+test_r2 = r2_score(y_test, y_pred_test)  # 테스트 데이터 R²
+train_rmse = np.sqrt(mean_squared_error(y_train, y_pred_train))  # 훈련 데이터 RMSE
+test_rmse = np.sqrt(mean_squared_error(y_test, y_pred_test))  # 테스트 데이터 RMSE
+
+# 평가 결과 출력
+print("\n### 선형회귀 모델 평가 ###")
+print(f"Train R²: {train_r2:.3f}, Train RMSE: {train_rmse:.3f}")
+print(f"Test R²: {test_r2:.3f}, Test RMSE: {test_rmse:.3f}")
+
+# 7. 교차 검증 수행
+# 교차 검증을 통해 모델의 일반화 성능을 확인
+cv_scores = cross_val_score(linear_model, X_train_scaled, y_train, cv=5, scoring='r2')  # 5-폴드 교차 검증 수행
+
+# 교차 검증 결과 출력
+print("\n### 교차 검증 결과 ###")
+print(f"Cross-Validation R² scores: {cv_scores}")
+print(f"Average CV R²: {np.mean(cv_scores):.3f}")
+
+# 8. 예측 결과 시각화
+# 실제값과 예측값을 비교하여 시각화
+df_results = pd.DataFrame({'actual': y_test, 'prediction': y_pred_test})  # 실제값과 예측값을 DataFrame에 저장
+df_results = df_results.sort_values(by='actual').reset_index(drop=True)  # 실제값 기준으로 정렬
+
+# 예측 결과 시각화
+plt.figure(figsize=(12, 8))  # 그래프 크기 설정
+plt.plot(df_results.index, df_results['prediction'], marker='x', linestyle='-', color='r', label='Prediction')  # 예측값
+plt.plot(df_results.index, df_results['actual'], linestyle='-', alpha=0.6, color='black', label='Actual')  # 실제값
+plt.title("Actual vs Predicted Results (Linear Regression)")  # 그래프 제목
+plt.xlabel("Samples")  # x축 이름
+plt.ylabel("견주수 (Owners Count)")  # y축 이름
+plt.legend()  # 범례 표시
+plt.show()  # 그래프 출력
+
+##version05 딥러닝모델
+# 필요한 라이브러리 불러오기
+import pandas as pd  # 데이터 처리 및 분석
+import numpy as np  # 수학적 계산 및 배열 처리
+import matplotlib.pyplot as plt  # 시각화 라이브러리
+from sklearn.model_selection import train_test_split, cross_val_score  # 데이터 분할 및 교차 검증
+from sklearn.preprocessing import StandardScaler  # 데이터 표준화
+from sklearn.metrics import mean_squared_error, r2_score  # 모델 평가 지표
+from sklearn.linear_model import LinearRegression  # 선형회귀 모델
+from tensorflow.keras.models import Sequential  # 딥러닝 모델 생성
+from tensorflow.keras.layers import Dense, Dropout, BatchNormalization  # 신경망 레이어
+from tensorflow.keras.callbacks import EarlyStopping  # 학습 조기 종료
+
+# 1. 데이터 불러오기
+train_path = '/content/preprocessing_final_data_c.csv'  # 훈련 데이터 경로
+test_path = '/content/preprocessing_final_data_n.csv'  # 테스트 데이터 경로
+
+# CSV 파일 불러오기
+train_data = pd.read_csv(train_path)  # 훈련 데이터
+test_data = pd.read_csv(test_path)  # 테스트 데이터
+
+# 2. 독립변수(X)와 종속변수(y) 분리
+X_train = train_data[["미용", "병원", "약국", "용품", "위탁"]]  # 훈련 데이터의 독립변수
+y_train = train_data["견주수"]  # 훈련 데이터의 종속변수
+X_test = test_data[["미용", "병원", "약국", "용품", "위탁"]]  # 테스트 데이터의 독립변수
+y_test = test_data["견주수"]  # 테스트 데이터의 종속변수
+
+# 3. 데이터 스케일링
+scaler = StandardScaler()  # StandardScaler 객체 생성
+X_train_scaled = scaler.fit_transform(X_train)  # 훈련 데이터 표준화
+X_test_scaled = scaler.transform(X_test)  # 테스트 데이터 표준화
+
+# 4. 선형회귀 모델 학습 및 평가
+# 선형회귀 모델 정의
+linear_model = LinearRegression()
+linear_model.fit(X_train_scaled, y_train)  # 선형회귀 모델 학습
+
+# 예측 수행
+y_pred_train_lr = linear_model.predict(X_train_scaled)  # 훈련 데이터 예측
+y_pred_test_lr = linear_model.predict(X_test_scaled)  # 테스트 데이터 예측
+
+# 성능 평가
+train_r2_lr = r2_score(y_train, y_pred_train_lr)
+test_r2_lr = r2_score(y_test, y_pred_test_lr)
+train_rmse_lr = np.sqrt(mean_squared_error(y_train, y_pred_train_lr))
+test_rmse_lr = np.sqrt(mean_squared_error(y_test, y_pred_test_lr))
+
+# 결과 출력
+print("\n### 선형회귀 모델 평가 ###")
+print(f"Train R²: {train_r2_lr:.3f}, Train RMSE: {train_rmse_lr:.3f}")
+print(f"Test R²: {test_r2_lr:.3f}, Test RMSE: {test_rmse_lr:.3f}")
+
+# 5. 딥러닝 모델 학습 및 평가
+# 딥러닝 모델 정의
+dl_model = Sequential([
+    Dense(128, activation='relu', input_shape=(X_train_scaled.shape[1],)),  # 입력층 + 첫 번째 은닉층
+    BatchNormalization(),  # 배치 정규화 (학습 안정화)
+    Dropout(0.2),  # 과적합 방지를 위한 드롭아웃
+    Dense(64, activation='relu'),  # 두 번째 은닉층
+    Dropout(0.2),
+    Dense(1, activation='linear')  # 출력층 (회귀 문제)
+])
+
+# 모델 컴파일
+dl_model.compile(optimizer='adam', loss='mse', metrics=['mae'])  # Adam 최적화와 MSE 손실함수 사용
+
+# 학습 조기 종료 설정
+early_stopping = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True)
+
+# 모델 학습
+history = dl_model.fit(
+    X_train_scaled, y_train,  # 학습 데이터
+    validation_split=0.2,  # 검증 데이터 비율
+    epochs=100,  # 학습 반복 횟수
+    batch_size=16,  # 배치 크기
+    callbacks=[early_stopping],  # 조기 종료 설정
+    verbose=1  # 학습 과정 출력
+)
+
+# 딥러닝 모델 예측
+y_pred_train_dl = dl_model.predict(X_train_scaled).flatten()  # 훈련 데이터 예측
+y_pred_test_dl = dl_model.predict(X_test_scaled).flatten()  # 테스트 데이터 예측
+
+# 성능 평가
+train_r2_dl = r2_score(y_train, y_pred_train_dl)
+test_r2_dl = r2_score(y_test, y_pred_test_dl)
+train_rmse_dl = np.sqrt(mean_squared_error(y_train, y_pred_train_dl))
+test_rmse_dl = np.sqrt(mean_squared_error(y_test, y_pred_test_dl))
+
+# 결과 출력
+print("\n### 딥러닝 모델 평가 ###")
+print(f"Train R²: {train_r2_dl:.3f}, Train RMSE: {train_rmse_dl:.3f}")
+print(f"Test R²: {test_r2_dl:.3f}, Test RMSE: {test_rmse_dl:.3f}")
+
+# 6. 예측 결과 시각화 (딥러닝)
+df_results = pd.DataFrame({'actual': y_test, 'prediction': y_pred_test_dl})
+df_results = df_results.sort_values(by='actual').reset_index(drop=True)
+
+plt.figure(figsize=(12, 8))
+plt.scatter(df_results.index, df_results['prediction'], marker='x', color='r', label='Prediction')
+plt.scatter(df_results.index, df_results['actual'], alpha=0.6, color='black', label='Actual')
+plt.title("Prediction Results (Deep Learning)")
+plt.xlabel("Samples")
+plt.ylabel("견주수 (Owners Count)")
+plt.legend()
+plt.show()
