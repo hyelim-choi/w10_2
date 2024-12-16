@@ -102,7 +102,7 @@ for city in unique_cities:
 df = pd.DataFrame(dog_facilities_all, columns=['dog_facilities_name', 'dog_facilities_type', 'address_name'])
 
 # 하나의 파일로 저장
-output_file = f"{output_folder}/dog_facilities_all.csv"
+output_file = f"{output_folder}/nan_facilities_all.csv"
 df.to_csv(output_file, encoding='utf-8-sig', index=False)
 print(f"[저장 완료]: {output_file}")
 
