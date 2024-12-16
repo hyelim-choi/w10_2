@@ -1,5 +1,5 @@
 # 남앙주 시설: preprocessing_all > preprocessing_data_n
-# 남양주 견주수: (작업중)
+# 남양주 견주수: crawling_code_nan > nan_data
 # 창원 시설: preprocessing_all > preprocessing_data_c
 # 창원 견주수: crawling_code_changwon > changewon_data
 
