@@ -54,24 +54,10 @@ for address, group in nan_df.groupby('address_name'):
 
 # 새로운 타입 컬럼 추가
 nan_df['new_type'] = nan_df['dog_facilities_type'].map(new_type_mapping)
-# 동별 새로운 타입 개수 계산
-summary_data = defaultdict(lambda:defaultdict(int))
-for address,group in nan_df.groupby('address_name'):
-    type_counts = group['new_type'].value_counts()
-    for new_type, count in type_counts.items():
-        summary_data[address][new_type] = count
 
-# 결과를 새로운 데이터 프레임으로 변환
-summary_df = pd.DataFrame.from_dict(summary_data, orient='index').fillna(0).astype(int)
-summary_df.index.name = 'address_name'
-summary_df.reset_index(inplace=True)
 
 # 출력 결과
 print("새로운 타입이 추가된 원본 데이터프레임:")
 print(nan_df.head())
 
-print("\n동별 새로운 타입 개수 요약 데이터프레임:")
-print(summary_df)
-
 nan_df.to_csv("updated_data_n.csv", index=False)
-summary_df.to_csv("summary_data_n.csv", index=False)
