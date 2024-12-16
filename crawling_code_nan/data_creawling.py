@@ -5,10 +5,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 from time import sleep
-import json
 
-with open('dog_type.json', 'r', encoding='utf-8') as file:
-    data = json.load(file)
+# CSV 파일
+df = pd.read_csv('nan_data.csv', encoding='utf-8')  # CSV 파일 경로로 수정
+
+unique_cities = df['읍면동명']
 
 # 검색어 기반 URL
 url = 'https://map.naver.com/v5/search'
@@ -48,14 +49,12 @@ def page_down(driver, num):
 
 
 # 결과 저장 경로
-output_folder = '../crawling_file'
+output_folder = '../crawling_file_nan'
 dog_facilities_all = []
 
 # 읍면동별 검색 및 크롤링
-for entry in data:
-    city = entry['시군명']
-    district = entry['읍면동명']
-    key_word = f"{city} {district} 동물"
+for city in unique_cities:
+    key_word = f"남양주시 {city} 동물"
     print(f"\n[검색어]: {key_word}")
 
     # 새로운 브라우저 시작
