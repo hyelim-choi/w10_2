@@ -85,6 +85,111 @@ X_train_const = sm.add_constant(X_train_scaled)
 ols_model = sm.OLS(y_train, X_train_const).fit()
 print(ols_model.summary())
 ###########
+###version1.2 svm,dt모델 추가
+# 필요한 라이브러리 불러오기
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.svm import SVR
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import train_test_split
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+import statsmodels.api as sm
+
+# 1. 데이터 불러오기
+train_path = 'preprocessing_final_data_c.csv'
+test_path = 'preprocessing_fianl_data_n.csv'
+
+train_data = pd.read_csv(train_path)
+test_data = pd.read_csv(test_path)
+
+# 2. 독립변수(X)와 종속변수(y) 분리
+X_train = train_data[["미용", "병원", "약국", "용품", "위탁"]]
+y_train = train_data["견주수"]
+
+X_test = test_data[["미용", "병원", "약국", "용품", "위탁"]]
+y_test = test_data["견주수"]
+
+# 3. 데이터 스케일링 (표준화)
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+# 4. 반복 실험 및 성능 저장 함수
+from sklearn.base import clone
+
+
+def run_experiments(models, n_experiments=100):
+    results_summary = {name: [] for name in models.keys()}
+
+    for i in range(n_experiments):
+        for name, model in models.items():
+            # 모델 학습 및 예측
+            model_clone = clone(model)
+            model_clone.fit(X_train_scaled, y_train)
+            y_pred_test = model_clone.predict(X_test_scaled)
+
+            # 성능 평가
+            test_r2 = r2_score(y_test, y_pred_test)
+            test_rmse = np.sqrt(mean_squared_error(y_test, y_pred_test))
+
+            results_summary[name].append({'R2': test_r2, 'RMSE': test_rmse})
+
+    return results_summary
+
+
+# 5. 모델 정의
+models = {
+    'Linear Regression': LinearRegression(),
+    'Decision Tree': DecisionTreeRegressor(max_depth=5, random_state=42),
+    'SVM': SVR(kernel='rbf', C=100, gamma=0.1, epsilon=0.1)
+}
+
+# 6. 실험 수행 (100번 반복)
+n_experiments = 100
+results_summary = run_experiments(models, n_experiments)
+
+
+# 7. 성능 요약 및 출력
+def summarize_results(results_summary):
+    for name, metrics in results_summary.items():
+        r2_scores = [res['R2'] for res in metrics]
+        rmse_scores = [res['RMSE'] for res in metrics]
+
+        print(f"\n### {name} 모델 성능 요약 ###")
+        print(
+            f"R² 평균: {np.mean(r2_scores):.4f}, 표준편차: {np.std(r2_scores):.4f}, 최소: {np.min(r2_scores):.4f}, 최대: {np.max(r2_scores):.4f}")
+        print(
+            f"RMSE 평균: {np.mean(rmse_scores):.4f}, 표준편차: {np.std(rmse_scores):.4f}, 최소: {np.min(rmse_scores):.4f}, 최대: {np.max(rmse_scores):.4f}")
+
+
+summarize_results(results_summary)
+
+# 8. Statsmodels로 유의성 검정 (선형 회귀만)
+X_train_const = sm.add_constant(X_train_scaled)
+ols_model = sm.OLS(y_train, X_train_const).fit()
+print("\n### Statsmodels 결과 ###")
+print(ols_model.summary())
+
+# 9. 최종 예측 시각화 (Linear Regression 예시)
+final_model = LinearRegression()
+final_model.fit(X_train_scaled, y_train)
+y_pred_test_final = final_model.predict(X_test_scaled)
+
+df_results = pd.DataFrame({'actual': y_test, 'prediction': y_pred_test_final})
+df_results = df_results.sort_values(by='actual').reset_index(drop=True)
+
+plt.figure(figsize=(12, 9))
+plt.scatter(df_results.index, df_results['prediction'], marker='x', color='r', label='Prediction')
+plt.scatter(df_results.index, df_results['actual'], alpha=0.6, color='black', label='Actual')
+plt.title("Final Prediction Results (Linear Regression)")
+plt.legend()
+plt.show()
+
 #version02
 # 필요한 라이브러리 불러오기
 import pandas as pd  # 데이터프레임 생성 및 데이터 조작
@@ -99,8 +204,9 @@ import statsmodels.api as sm  # 통계적 회귀 분석 라이브러리
 
 # 1. 데이터 불러오기
 # 학습 및 테스트 데이터셋 경로 설정
-train_path = '/content/preprocessing_data_c.csv'  # 훈련 데이터 경로
-test_path = '/content/preprocessing_fianl_data_n.csv'  # 테스트 데이터 경로
+train_path = 'preprocessing_final_data_c.csv'
+test_path = 'preprocessing_fianl_data_n.csv'
+# 테스트 데이터 경로
 
 # CSV 파일을 pandas DataFrame으로 읽어옴
 train_data = pd.read_csv(train_path)  # 훈련 데이터 불러오기
@@ -209,8 +315,9 @@ import matplotlib.pyplot as plt  # 시각화 라이브러리
 
 # 1. 데이터 불러오기
 # 훈련 및 테스트 데이터셋 경로 지정
-train_path = '/content/preprocessing_data_c.csv'  # 훈련 데이터 경로
-test_path = '/content/preprocessing_fianl_data_n.csv'  # 테스트 데이터 경로
+train_path = 'preprocessing_final_data_c.csv'
+test_path = 'preprocessing_fianl_data_n.csv'
+# 테스트 데이터 경로
 
 # CSV 파일을 pandas DataFrame으로 읽어오기
 train_data = pd.read_csv(train_path)  # 훈련 데이터 불러오기
@@ -350,8 +457,9 @@ from sklearn.linear_model import LinearRegression  # 선형회귀 모델
 
 # 1. 데이터 불러오기
 # 훈련 및 테스트 데이터셋 경로 지정
-train_path = '/content/preprocessing_final_data_c.csv'  # 훈련 데이터 파일 경로
-test_path = '/content/preprocessing_final_data_n.csv'  # 테스트 데이터 파일 경로
+train_path = 'preprocessing_final_data_c.csv'
+test_path = 'preprocessing_fianl_data_n.csv'
+# 테스트 데이터 파일 경로
 
 # CSV 파일을 pandas DataFrame으로 불러오기
 train_data = pd.read_csv(train_path)  # 훈련 데이터 불러오기
@@ -429,8 +537,9 @@ from tensorflow.keras.layers import Dense, Dropout, BatchNormalization  # 신경
 from tensorflow.keras.callbacks import EarlyStopping  # 학습 조기 종료
 
 # 1. 데이터 불러오기
-train_path = '/content/preprocessing_final_data_c.csv'  # 훈련 데이터 경로
-test_path = '/content/preprocessing_final_data_n.csv'  # 테스트 데이터 경로
+train_path = 'preprocessing_final_data_c.csv'
+test_path = 'preprocessing_fianl_data_n.csv'
+# 테스트 데이터 경로
 
 # CSV 파일 불러오기
 train_data = pd.read_csv(train_path)  # 훈련 데이터
