@@ -8,8 +8,8 @@
   - crawling_code_changwon
     
     : 창원시의 읍면동 별 반려동물 관련 기관 및 견주 수 확인을 위한 자료
-    - changwon_data.csv: 창원시 크롤링 결과
-    - crawling_c.py: 창원시 반려동물 등록소유자수 공공데이터
+    - changwon_data.csv: 창원시 반려동물 등록소유자수 공공데이터
+    - crawling_c.py: 창원시 크롤링 코드
   - crawling_code_nan
     
     : 남양주시의 읍면동 별 반려동물 관련 기관 및 견주 수 확인을 위한 자료
