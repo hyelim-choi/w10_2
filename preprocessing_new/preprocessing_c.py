@@ -3,7 +3,7 @@ import pandas as pd
 from difflib import SequenceMatcher
 
 # CSV 파일 로드
-nan_df = pd.read_csv('../crawling_file_nan/nan_facilities_all.csv')
+changwon_df = pd.read_csv('../crawling_file_changwon/changwon_facilities_all.csv')
 
 # 이상한 가게 제거 : 주소가 다른데 이름은 같은 데이터 제거
 changwon_df = changwon_df[~changwon_df.duplicated(subset=['dog_facilities_name'], keep=False) | (changwon_df.duplicated(subset=['address_name'], keep=False))]
