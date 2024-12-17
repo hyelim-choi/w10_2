@@ -202,14 +202,8 @@ matplotlib
 ## 📌 **결론**
 본 프로젝트를 통해 **Gradient Boosting**과 **Random Forest**가 높은 성능을 보였으며, 하이퍼파라미터 튜닝을 통해 최적의 모델을 도출하였습니다. 시각화를 통해 모델의 예측값과 실제값을 비교하고 해석할 수 있습니다.
 
----
-
-## 🔗 **참고 자료**
-- Scikit-learn 공식 문서: [https://scikit-learn.org/](https://scikit-learn.org/)
-- 데이터 분석 및 시각화: Seaborn, Matplotlib  
 
 ---
 
-### **문의**
-프로젝트에 대한 궁금한 사항은 이슈를 열어주세요. 😊
+
     
