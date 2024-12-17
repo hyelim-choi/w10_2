@@ -19,8 +19,8 @@ plt.rc('font',family='Malgun Gothic')
 
 # 1. 데이터 불러오기
 # 훈련 및 테스트 데이터셋 경로 지정
-train_path = 'preprocessing_final_data_c.csv'
-test_path = 'preprocessing_final_data_n.csv'
+train_path = '../preprocessing_all/preprocessing_final_data_c.csv'
+test_path = '../preprocessing_all/preprocessing_final_data_n.csv'
 # 테스트 데이터 경로
 
 # CSV 파일을 pandas DataFrame으로 읽어오기
