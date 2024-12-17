@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 plt.rcParams['font.family'] = 'Malgun Gothic'  # 한글 설정
 
-n_df = pd.read_csv("../preprocessing_all/preprocessing_fianl_data_n.csv")  # 남양주 데이터 불러오기
+n_df = pd.read_csv("../preprocessing_all/preprocessing_final_data_n.csv")  # 남양주 데이터 불러오기
 
 # 서브플롯 설정
 f, axes = plt.subplots(2, 3)
