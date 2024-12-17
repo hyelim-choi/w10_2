@@ -9,7 +9,7 @@ from time import sleep
 # CSV 파일
 df = pd.read_csv('nan_data.csv', encoding='utf-8')  # CSV 파일 경로로 수정
 
-unique_cities = df['읍면동명']
+unique_cities = df['읍면동명'] # 추후 검색어 설정 시 필요
 
 # 검색어 기반 URL
 url = 'https://map.naver.com/v5/search'
@@ -80,9 +80,9 @@ for city in unique_cities:
 
     # 크롤링 데이터 저장
     dog_related_facilities_list = driver.find_elements(By.CSS_SELECTOR, 'li.VLTHu')
-    names = driver.find_elements(By.CSS_SELECTOR, '.YwYLL')
-    types = driver.find_elements(By.CSS_SELECTOR, '.YzBgS')
-    addresses = driver.find_elements(By.CSS_SELECTOR, '.lWwyx .Pb4bU')
+    names = driver.find_elements(By.CSS_SELECTOR, '.YwYLL') # 시설 이름
+    types = driver.find_elements(By.CSS_SELECTOR, '.YzBgS') # 시설 종류
+    addresses = driver.find_elements(By.CSS_SELECTOR, '.lWwyx .Pb4bU') # 시설 주소
 
     for i in range(len(dog_related_facilities_list)):
         try:
