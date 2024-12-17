@@ -34,7 +34,7 @@
     - main/modeling/new.py 실행했을 때 각 모델의 예측 결과 시각화 및 히트맵 확인 가능
     
     - main/visualization/map_visualization_n.py 실행했을 때 생성되는 html -> 파일 경로를 찾아서 직접 파일 실행시 지도 시각화 확인 가능
-## 📌 4. main/modeling 코드 5가지 설명
+## 📌 4. modeling/modeling.py 코드 5가지 설명
   - version 01
     : Linear Regression 모델 학습
   - version 1.2
