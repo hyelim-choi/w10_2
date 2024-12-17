@@ -112,7 +112,8 @@ Project Directory/
 
 ### 📈 **결과 예시**
 
-**최적 모델**: Random Forest or Gradient Boosting (예시)  
+
+**최적 모델**:  SGD Regressor 
 
 #### **R² 및 RMSE 결과**
 | Model               | Train R² | Test R² | Train RMSE | Test RMSE |
