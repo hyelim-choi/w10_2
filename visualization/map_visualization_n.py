@@ -3,7 +3,7 @@ import geopandas as gpd
 import folium
 import zipfile
 
-zipfile.ZipFile('Z_SOP_BND_ADM_DONG_PG/Z_SOP_BND_ADM_DONG_PG.zip').extractall(path='Z_SOP_BND_ADM_DONG_PG')  # 지도 파일 압축해제
+zipfile.ZipFile('Z_SOP_BND_ADM_DONG_PG/Z_SOP_BND_ADM_DONG_PG.zip').extractall()  # 지도 파일 압축해제
 
 n_df = pd.read_csv("../preprocessing_all/preprocessing_final_data_n.csv")  # 남양주 데이터 불러오기
 korea_boundary = gpd.read_file("Z_SOP_BND_ADM_DONG_PG/Z_SOP_BND_ADM_DONG_PG.shp", encoding='cp949')  # 지도 데이터 불러오기
