@@ -12,7 +12,10 @@ import statsmodels.api as sm
 
 #한글설정
 plt.rcParams['font.family']='Malgun Gothic'
-
+#한글설정,폰트의 음수설정 조정
+plt.rcParams['font.family']='Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] = False
+plt.rc('font',family='Malgun Gothic')
 
 # 1. 데이터 불러오기
 train_path = 'preprocessing_final_data_c.csv'
