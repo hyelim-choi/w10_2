@@ -77,9 +77,9 @@ for city in unique_cities:
 
     # 크롤링 데이터 저장
     dog_related_facilities_list = driver.find_elements(By.CSS_SELECTOR, 'li.VLTHu')
-    names = driver.find_elements(By.CSS_SELECTOR, '.YwYLL')
-    types = driver.find_elements(By.CSS_SELECTOR, '.YzBgS')
-    addresses = driver.find_elements(By.CSS_SELECTOR, '.lWwyx .Pb4bU')
+    names = driver.find_elements(By.CSS_SELECTOR, '.YwYLL') # 시설 이름
+    types = driver.find_elements(By.CSS_SELECTOR, '.YzBgS') # 시설 종류
+    addresses = driver.find_elements(By.CSS_SELECTOR, '.lWwyx .Pb4bU') # 시설 주소
 
     for i in range(len(dog_related_facilities_list)):
         try:
