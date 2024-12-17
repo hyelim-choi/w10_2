@@ -72,21 +72,6 @@
 
 ---
 
-### 🔧 **프로젝트 구조**
-```plaintext
-Project Directory/
-│
-├── preprocessing_all/
-│   ├── preprocessing_final_data_c.csv  # 훈련 데이터
-│   ├── preprocessing_final_data_n.csv  # 테스트 데이터
-│   └── modeling.py                     # 메인 코드 파일
-│
-├── README.md                          # 프로젝트 설명서
-└── requirements.txt                   # 필요한 라이브러리
-```
-
----
-
 ### ⚙️ **주요 코드 설명**
 
 #### **1. 데이터 전처리**
@@ -129,35 +114,6 @@ Project Directory/
 ---
 ![KakaoTalk_20241217_173626054](https://github.com/user-attachments/assets/528d443e-0bf7-4cdc-a7f0-3ea4d2d1e91f)
 ![KakaoTalk_20241217_172825587](https://github.com/user-attachments/assets/105b8dbf-9bd6-441e-87b0-c8f891cee020)
-### 🖥️ **실행 방법**
-
-#### **1. 환경 설정**
-필요한 패키지를 설치합니다.
-```bash
-pip install -r requirements.txt
-```
-
-#### **2. 프로젝트 실행**
-```bash
-python preprocessing_all/modeling.py
-```
-
----
-
-### 🛠️ **필요 라이브러리**
-- pandas
-- numpy
-- scikit-learn
-- seaborn
-- matplotlib
-
-`requirements.txt`:
-```plaintext
-pandas
-numpy
-scikit-learn
-seaborn
-matplotlib
 ```
 
 ---
