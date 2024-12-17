@@ -7,28 +7,41 @@
 ## ⚙️ 2. 프로젝트 구성 (레파지토리 설명)
   - crawling_code_changwon
     
-    : 창원시의 읍면동 별 반려동물 관련 기관 크롤링
+    : 창원시의 읍면동 별 반려동물 관련 기관 및 견주 수 확인을 위한 자료
+    - changwon_data.csv: 창원시 크롤링 결과
+    - crawling_c.py: 창원시 반려동물 등록소유자수 공공데이터
   - crawling_code_nan
     
-    : 남양주의 읍면동 별 반려동물 관련 기관 크롤링
+    : 남양주시의 읍면동 별 반려동물 관련 기관 및 견주 수 확인을 위한 자료
+    - crawling_n.py: 남양주시 크롤링 코드
+    - nan_data.csv: 남양주시 반려동물 등록소유자수 공공데이터
   - crawling_file_changwon
   
     : 창원시의 반려동물 관련 기관 크롤링한 데이터 저장
+    - changwon_facilities_all.csv: 창원시 크롤링 결과
   - crawling_file_nan
   
     : 남양주의 반려동물 관련 기관 크롤링한 데이터 저장
+    - changwon_facilities_all.csv: 남양주시 크롤링 결과
   - modeling
   
-    : 창원시의 데이터를 학습시켜 남양주의 반려동물 수 예측 5가지 방법
+    : 창원시의 데이터를 학습시켜 남양주의 반려동물 수 예측 7가지 방법
+    - modeling.py: 모델링 코드
   - old
   
     : 캡스톤1에서 사용한 코드들 정리
   - preprocessing_all
   
     : 데이터 전처리한 부분 최종
+    - preprocessing_final_data_c.csv: 시각화 및 모델 학습을 위한 최종 데이터
+    - preprocessing_final_data_n.csv: 시각화 및 모델 평가를 위한 최종 데이터
   - visualization
   
     : 창원시와 남양주의 반려동물 시설 별 반려인 수, 지도 시각화 최종
+    - Z_SOP_BND_ADM_DONG_PG: 시각화를 위한 지도 데이터
+    - graph_visualization_c.py: 창원시의 반려동물 시설 별 반려인 수 시각화
+    - graph_visualization_n.py: 남양주시의 반려동물 시설 별 반려인 수 시각화
+    - map_visualization_n.py: 타겟 데이터(남양주시)의 시설, 견주 수에 따른 지도 시각화
     
 ## 💻 3. 프로젝트 프로그램 사용법
     - main/modeling/new.py 실행했을 때 각 모델의 예측 결과 시각화 및 히트맵 확인 가능
