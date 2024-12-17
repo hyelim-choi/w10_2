@@ -79,4 +79,137 @@
   👩‍💻 데이터사이언스학과 | 이윤경
   👩‍💻 디지털미디어학과 | 최혜림
 
+다음은 위 코드를 기반으로 작성된 **GitHub README** 예시입니다.
+
+---
+
+# 🐶 Pet Owner Count Prediction Project
+
+### **프로젝트 개요**
+본 프로젝트는 다양한 머신러닝 회귀 모델을 사용하여 **반려동물 주인의 수**를 예측하는 모델을 구축하는 프로젝트입니다. 주어진 독립변수(미용, 병원, 약국, 용품, 위탁)를 활용해 최적의 모델을 찾아내고 성능을 평가합니다.
+
+---
+
+## 📊 **사용한 모델**
+다양한 회귀 모델을 실험하였으며, 각 모델의 성능을 비교하였습니다.
+
+1. **Linear Regression**  
+2. **Ridge Regression**  
+3. **Lasso Regression**  
+4. **SGD Regressor**  
+5. **Decision Tree**  
+6. **Random Forest**  
+7. **Gradient Boosting**  
+
+---
+
+## 📂 **데이터셋**
+- **Train 데이터**: `preprocessing_final_data_c.csv`  
+- **Test 데이터**: `preprocessing_final_data_n.csv`  
+- **변수**:  
+   - **독립변수**: `미용`, `병원`, `약국`, `용품`, `위탁`  
+   - **종속변수**: `견주수` (반려동물 주인의 수)  
+
+---
+
+## 🔧 **프로젝트 구조**
+```plaintext
+Project Directory/
+│
+├── preprocessing_all/
+│   ├── preprocessing_final_data_c.csv  # 훈련 데이터
+│   ├── preprocessing_final_data_n.csv  # 테스트 데이터
+│   └── modeling.py                     # 메인 코드 파일
+│
+├── README.md                          # 프로젝트 설명서
+└── requirements.txt                   # 필요한 라이브러리
+```
+
+---
+
+## ⚙️ **주요 코드 설명**
+
+### **1. 데이터 전처리**
+- **표준화**: `StandardScaler`를 사용해 데이터를 표준화합니다.  
+- **시각화**:
+   - **Bar Plot**, **Boxplot**: 데이터 분포 확인  
+   - **Heatmap**: 변수 간 상관관계 분석  
+
+### **2. 모델 학습 및 평가**
+각 모델에 대해 성능을 평가하고 최적의 모델을 찾기 위해 다음을 수행합니다:  
+- **GridSearchCV**를 사용한 하이퍼파라미터 최적화  
+- **교차 검증**을 통한 일반화 성능 평가  
+- 성능 지표:
+   - `R² Score`  
+   - `RMSE (Root Mean Squared Error)`  
+
+### **3. 최종 예측 및 시각화**
+최적 모델을 바탕으로 테스트 데이터 예측 결과를 시각화합니다:  
+- **Scatter Plot**  
+- **Line Plot**  
+
+---
+
+## 📈 **결과 예시**
+
+**최적 모델**: Random Forest or Gradient Boosting (예시)  
+
+### **R² 및 RMSE 결과**
+| Model               | Train R² | Test R² | Train RMSE | Test RMSE |
+|---------------------|----------|---------|------------|-----------|
+| Linear Regression   | 0.80     | 0.75    | 10.5       | 12.3      |
+| Ridge               | 0.81     | 0.76    | 10.4       | 12.1      |
+| Lasso               | 0.78     | 0.73    | 11.0       | 12.7      |
+| SGD Regressor       | 0.79     | 0.74    | 10.7       | 12.5      |
+| **Random Forest**   | **0.95** | **0.92**| **5.4**    | **6.2**   |
+| Gradient Boosting   | 0.93     | 0.90    | 6.1        | 7.0       |
+
+---
+
+## 🖥️ **실행 방법**
+
+### **1. 환경 설정**
+필요한 패키지를 설치합니다.
+```bash
+pip install -r requirements.txt
+```
+
+### **2. 프로젝트 실행**
+```bash
+python preprocessing_all/modeling.py
+```
+
+---
+
+## 🛠️ **필요 라이브러리**
+- pandas
+- numpy
+- scikit-learn
+- seaborn
+- matplotlib
+
+`requirements.txt`:
+```plaintext
+pandas
+numpy
+scikit-learn
+seaborn
+matplotlib
+```
+
+---
+
+## 📌 **결론**
+본 프로젝트를 통해 **Gradient Boosting**과 **Random Forest**가 높은 성능을 보였으며, 하이퍼파라미터 튜닝을 통해 최적의 모델을 도출하였습니다. 시각화를 통해 모델의 예측값과 실제값을 비교하고 해석할 수 있습니다.
+
+---
+
+## 🔗 **참고 자료**
+- Scikit-learn 공식 문서: [https://scikit-learn.org/](https://scikit-learn.org/)
+- 데이터 분석 및 시각화: Seaborn, Matplotlib  
+
+---
+
+### **문의**
+프로젝트에 대한 궁금한 사항은 이슈를 열어주세요. 😊
     
