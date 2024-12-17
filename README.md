@@ -126,7 +126,8 @@ Project Directory/
 | Gradient Boosting   | 0.680     | -0.729    | 221.027        | 2367.554       |
 
 ---
-
+![KakaoTalk_20241217_173626054](https://github.com/user-attachments/assets/528d443e-0bf7-4cdc-a7f0-3ea4d2d1e91f)
+![KakaoTalk_20241217_172825587](https://github.com/user-attachments/assets/105b8dbf-9bd6-441e-87b0-c8f891cee020)
 ### 🖥️ **실행 방법**
 
 #### **1. 환경 설정**
