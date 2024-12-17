@@ -44,9 +44,11 @@
     - map_visualization_n.py: 타겟 데이터(남양주시)의 시설, 견주 수에 따른 지도 시각화
     
 ## 💻 3. 프로젝트 프로그램 사용법
-    - main/modeling/new.py 실행했을 때 각 모델의 예측 결과 시각화 및 히트맵 확인 가능
+    - main/modeling/modeling.py 실행했을 때 데이터 시각화 및 각 모델의 예측 결과 확인 가능
     
-    - main/visualization/map_visualization_n.py 실행했을 때 생성되는 html -> 파일 경로를 찾아서 직접 파일 실행시 지도 시각화 확인 가능
+    - main/visualization/graph_visualization_c.py 실행했을 때 창원시의 지역별 반려동물 시설 수에 따른 견주 수 그래프 확인 가능 
+    - main/visualization/graph_visualization_n.py 실행했을 때 남양주시의 지역별 반려동물 시설 수에 따른 견주 수 그래프 확인 가능 
+    - main/visualization/map_visualization_n.py 실행했을 때 생성되는 html -> 파일 경로를 찾아서 직접 파일 실행시 남양주시의 지도 시각화 확인 가능
 ## 📌 4. modeling/modeling.py 코드 5가지 설명
   - version 01
     : Linear Regression 모델 학습
