@@ -6,14 +6,18 @@
   
 ## 2. 프로젝트 구성 (브랜치 설명)
   main:
+  
   crawling ChangWon:
+  
   crawling: 
+  
   prediction: 
+  
   preprocessing:
+  
   visualization: 
-## 3. 프로젝트 프로그램 사용법
-
-## 4. 조원 정보
+  
+## 3. 조원 정보
     👩‍💻 데이터사이언스학과 김연주
     👩‍💻 데이터사이언스학과 이승윤
     👩‍💻 데이터사이언스학과 이윤경
